@@ -13,12 +13,34 @@
 #   user friendly
 #   report # of tasks
 
+def elicitInt(_min, _max, msg=None):
+    if msg == None:
+        msg = f"Enter a valid integer between {_min} and {_max}: "
+
+    valid = False
+
+    while not valid:
+        _in = input(msg)
+
+        try:
+            _in = int(_in)
+
+            if _min <= _in <= _max:
+                valid = True
+            else:
+                print("Integer out of bounds")
+
+        except ValueError:
+            print("Invalid integer provided")
+
+    return _in
 
 def printMenu():
     print("1) Add  2) List  3) Delete  4) Count Tasks  5) Quit")
 
 
-def acceptInput(): pass
+def acceptMenuInput():
+    return elicitInt(1, 5, "Select a menu item: ")
 
 
 def handleInput(userInput):
@@ -32,7 +54,7 @@ def main():
     while not _quit:
         printMenu()
 
-        userInput = acceptInput()
+        userInput = acceptMenuInput()
         _quit = handleInput(userInput)
 
 
