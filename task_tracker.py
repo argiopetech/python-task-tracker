@@ -61,7 +61,10 @@ def listTasks():
         print(f"{i + 1}. {allTasks[i]}")
 
 
-def deleteTask(): pass
+def deleteTask():
+    toDelete = elicitInt(1, len(allTasks), "Specify a task to delete: ")
+
+    del allTasks[toDelete - 1]
 
 
 def countTasks():
@@ -87,9 +90,7 @@ def handleMenuInput(userInput):
     return _quit
 
 
-def main():
-    _quit = False
-
+def clearScreen():
     if os.name == 'posix':
         clearCommand = "clear"
     elif os.name == 'nt':
@@ -97,13 +98,19 @@ def main():
 
     system(clearCommand)
 
+
+def main():
+    _quit = False
+
+    clearScreen()
+
     while not _quit:
         printMenu()
 
         userInput = acceptMenuInput()
 
         if userInput != 5: # Smelly, FIXME
-            system(clearCommand)
+            clearScreen()
 
         _quit = handleMenuInput(userInput)
 
