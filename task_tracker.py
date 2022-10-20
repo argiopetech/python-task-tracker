@@ -12,18 +12,20 @@
 #   all tasks wil be entered by the user
 #   user friendly
 #   report # of tasks
+import sys
+
 import os
 from os import system
 
 
 allTasks = []
 
-def getFilename():
-    return os.path.expanduser("~/.task-tracker-tasks")
+def getFilename(user):
+    return os.path.expanduser(f"~/.task-tracker-tasks{user}")
 
 
-def getTasks():
-    filename = getFilename()
+def getTasks(user):
+    filename = getFilename(user)
 
     if not os.path.exists(filename): return []
 
@@ -39,8 +41,8 @@ def getTasks():
 
     return toReturn
 
-def writeTasks(tasks):
-    filename = getFilename()
+def writeTasks(user, tasks):
+    filename = getFilename(user)
 
     with open(filename, "w") as f:
         for t in tasks:
@@ -130,8 +132,16 @@ def clearScreen():
 
 
 def main():
+    if len(sys.argv) == 1:
+        user = ""
+    elif len(sys.argv) == 2:
+        user = f"_{sys.argv[1]}"
+    else:
+        print("Provide 0 or 1 arguments")
+        quit()
+
     global allTasks
-    allTasks = getTasks()
+    allTasks = getTasks(user)
 
     _quit = False
 
@@ -144,7 +154,7 @@ def main():
 
         _quit = handleMenuInput(userInput)
 
-    writeTasks(allTasks)
+    writeTasks(user, allTasks)
 
     print("Bye")
 
