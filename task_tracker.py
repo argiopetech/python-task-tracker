@@ -39,11 +39,12 @@ def elicitInt(_min, _max, msg=None):
 
 
 def printMenu():
-    print("\n1) Add  2) List  3) Delete  4) Count Tasks  5) Quit")
+    listTasks()
+    print("\n1) Add  2) Delete  3) Count Tasks  4) Quit")
 
 
 def acceptMenuInput():
-    return elicitInt(1, 5, "Select a menu item: ")
+    return elicitInt(1, 4, "Select a menu item: ")
 
 
 allTasks = ["Task 1", "Task 2"]
@@ -68,7 +69,8 @@ def deleteTask():
 
 
 def countTasks():
-    print(f"There are {len(allTasks)} tasks.")
+    print(f"\nThere are {len(allTasks)} tasks.")
+    input("Press enter to continue...")
 
 
 def handleMenuInput(userInput):
@@ -77,12 +79,10 @@ def handleMenuInput(userInput):
     if userInput == 1:
         addTask()
     elif userInput == 2:
-        listTasks()
-    elif userInput == 3:
         deleteTask()
-    elif userInput == 4:
+    elif userInput == 3:
         countTasks()
-    elif userInput == 5:
+    elif userInput == 4:
         _quit = True
     else:
         raise ValueError(f"Unimplemented menu item, {userInput}")
@@ -102,15 +102,12 @@ def clearScreen():
 def main():
     _quit = False
 
-    clearScreen()
-
     while not _quit:
+        clearScreen()
+
         printMenu()
 
         userInput = acceptMenuInput()
-
-        if userInput != 5: # Smelly, FIXME
-            clearScreen()
 
         _quit = handleMenuInput(userInput)
 
