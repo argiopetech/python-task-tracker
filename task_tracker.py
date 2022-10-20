@@ -48,13 +48,22 @@ def acceptMenuInput():
 
 allTasks = ["Task 1", "Task 2"]
 
-def addTask(): pass
+def addTask():
+    global allTasks
+
+    task = input("Enter a task to add: ")
+
+    allTasks += [task]
+
+
 def listTasks():
     for i in range(len(allTasks)):
         print(f"{i + 1}. {allTasks[i]}")
 
 
 def deleteTask(): pass
+
+
 def countTasks():
     print(f"There are {len(allTasks)} tasks.")
 
