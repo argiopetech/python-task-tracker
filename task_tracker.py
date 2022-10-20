@@ -27,15 +27,24 @@ def getTasks():
 
     if not os.path.exists(filename): return []
 
-    with open(filename) as f:
-        return f.readlines()
+    toReturn = []
 
+    with open(filename) as f:
+        newLine = f.readline()
+
+        while newLine != "":
+            toReturn += [newLine.strip()]
+
+            newLine = f.readline()
+
+    return toReturn
 
 def writeTasks(tasks):
     filename = getFilename()
 
     with open(filename, "w") as f:
-        return f.writelines(tasks)
+        for t in tasks:
+            f.write(f'{t}\n')
 
 
 def elicitInt(_min, _max, msg=None):
@@ -75,12 +84,12 @@ def addTask():
 
     task = input("Enter a task to add: ")
 
-    allTasks += [task + '\n']
+    allTasks += [task]
 
 
 def listTasks():
     for i in range(len(allTasks)):
-        print(f"{i + 1}. {allTasks[i].strip()}")
+        print(f"{i + 1}. {allTasks[i]}")
 
 
 def deleteTask():
