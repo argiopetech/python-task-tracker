@@ -46,10 +46,23 @@ def acceptMenuInput():
     return elicitInt(1, 5, "Select a menu item: ")
 
 
-def handleInput(userInput):
-    print(userInput)
+def handleMenuInput(userInput):
+    _quit = False
 
-    return userInput == 5
+    if userInput == 1:
+        addTask()
+    elif userInput == 2:
+        listTasks()
+    elif userInput == 3:
+        deleteTask()
+    elif userInput == 4:
+        countTasks()
+    elif userInput == 5:
+        _quit = True
+    else:
+        raise ValueError("Unimplemented menu input")
+
+    return _quit
 
 
 def main():
@@ -69,7 +82,7 @@ def main():
 
         system(clearCommand)
 
-        _quit = handleInput(userInput)
+        _quit = handleMenuInput(userInput)
 
     print("Bye")
 
