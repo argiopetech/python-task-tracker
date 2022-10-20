@@ -14,7 +14,10 @@
 #   report # of tasks
 
 
-def printMenu(): pass
+def printMenu():
+    print("1) Add  2) List  3) Delete  4) Count Tasks  5) Quit")
+
+
 def acceptInput(): pass
 
 
