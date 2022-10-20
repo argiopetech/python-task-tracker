@@ -39,7 +39,7 @@ def elicitInt(_min, _max, msg=None):
 
 
 def printMenu():
-    print("1) Add  2) List  3) Delete  4) Count Tasks  5) Quit")
+    print("\n1) Add  2) List  3) Delete  4) Count Tasks  5) Quit")
 
 
 def acceptMenuInput():
@@ -49,9 +49,14 @@ def acceptMenuInput():
 allTasks = ["Task 1", "Task 2"]
 
 def addTask(): pass
-def listTasks(): pass
+def listTasks():
+    for i in range(len(allTasks)):
+        print(f"{i + 1}. {allTasks[i]}")
+
+
 def deleteTask(): pass
-def countTasks(): pass
+def countTasks():
+    print(f"There are {len(allTasks)} tasks.")
 
 
 def handleMenuInput(userInput):
@@ -88,7 +93,8 @@ def main():
 
         userInput = acceptMenuInput()
 
-        system(clearCommand)
+        if userInput != 5: # Smelly, FIXME
+            system(clearCommand)
 
         _quit = handleMenuInput(userInput)
 
