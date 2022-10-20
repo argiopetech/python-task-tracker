@@ -60,7 +60,7 @@ def handleMenuInput(userInput):
     elif userInput == 5:
         _quit = True
     else:
-        raise ValueError("Unimplemented menu input")
+        raise ValueError(f"Unimplemented menu item, {userInput}")
 
     return _quit
 
