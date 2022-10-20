@@ -46,6 +46,14 @@ def acceptMenuInput():
     return elicitInt(1, 5, "Select a menu item: ")
 
 
+allTasks = ["Task 1", "Task 2"]
+
+def addTask(): pass
+def listTasks(): pass
+def deleteTask(): pass
+def countTasks(): pass
+
+
 def handleMenuInput(userInput):
     _quit = False
 
