@@ -15,6 +15,25 @@
 import os
 from os import system
 
+
+allTasks = []
+
+def getFilename():
+    return os.path.expanduser("~/.task-tracker-tasks")
+
+
+def getTasks():
+    filename = getFilename()
+
+    if not os.path.exists(filename): return []
+
+    with open(filename) as f:
+        return f.readlines()
+
+
+def writeTasks(tasks): pass
+
+
 def elicitInt(_min, _max, msg=None):
     if msg == None:
         msg = f"Enter a valid integer between {_min} and {_max}: "
@@ -47,19 +66,17 @@ def acceptMenuInput():
     return elicitInt(1, 4, "Select a menu item: ")
 
 
-allTasks = ["Task 1", "Task 2"]
-
 def addTask():
     global allTasks
 
     task = input("Enter a task to add: ")
 
-    allTasks += [task]
+    allTasks += [task + '\n']
 
 
 def listTasks():
     for i in range(len(allTasks)):
-        print(f"{i + 1}. {allTasks[i]}")
+        print(f"{i + 1}. {allTasks[i].strip()}")
 
 
 def deleteTask():
@@ -100,6 +117,9 @@ def clearScreen():
 
 
 def main():
+    global allTasks
+    allTasks = getTasks()
+
     _quit = False
 
     while not _quit:
@@ -110,6 +130,8 @@ def main():
         userInput = acceptMenuInput()
 
         _quit = handleMenuInput(userInput)
+
+    writeTasks(allTasks)
 
     print("Bye")
 
