@@ -31,7 +31,11 @@ def getTasks():
         return f.readlines()
 
 
-def writeTasks(tasks): pass
+def writeTasks(tasks):
+    filename = getFilename()
+
+    with open(filename, "w") as f:
+        return f.writelines(tasks)
 
 
 def elicitInt(_min, _max, msg=None):
