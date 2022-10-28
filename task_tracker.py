@@ -98,10 +98,15 @@ def addTask():
 
     allTasks += [task]
 
+def pageIndices(page):
+    _min = page * PAGE_LENGTH
+    _max = min((page + 1) * PAGE_LENGTH, len(allTasks))
+
+    return (_min, _max)
+
 
 def listTasks():
-    minTask = page * PAGE_LENGTH
-    maxTask = min((page + 1) * PAGE_LENGTH, len(allTasks))
+    (minTask, maxTask) = pageIndices(page)
 
     for i in range(minTask, maxTask):
         task = allTasks[i]
@@ -123,10 +128,12 @@ def countTasks():
     input("Press enter to continue...")
 
 
-def nextPage():
+def nextPageOrReset():
     global page
 
-    if (page + 1) * PAGE_LENGTH > len(allTasks):
+    (minTask, _) = pageIndices(page + 1)
+
+    if (minTask > len(allTasks)):
         # Reset the page
         page = 0
     else:
@@ -142,7 +149,7 @@ def handleMenuInput(userInput):
     elif userInput == 3:
         countTasks()
     elif userInput == 4:
-        nextPage()
+        nextPageOrReset()
     elif userInput == 5:
         _quit = True
     else:
@@ -158,6 +165,11 @@ def clearScreen():
         clearCommand = "cls"
 
     system(clearCommand)
+
+
+def deleteComletedTasksAtListStart():
+    while allTasks[0][COMPLETED]:
+        del allTasks[0]
 
 
 def main():
@@ -177,8 +189,7 @@ def main():
     while not _quit:
         clearScreen()
 
-        while allTasks[0][COMPLETED]:
-            del allTasks[0]
+        deleteComletedTasksAtListStart()
 
         printMenu()
 
