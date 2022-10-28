@@ -21,7 +21,7 @@ from os import system
 allTasks = []
 page = 0
 
-PAGE_LENGTH = 5
+PAGE_LENGTH = 15
 
 
 def getFilename(user):
