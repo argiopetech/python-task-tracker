@@ -23,6 +23,8 @@ page = 0
 
 PAGE_LENGTH = 15
 
+COMPLETED   = 0
+DESCRIPTION = 1
 
 def getFilename(user):
     return os.path.expanduser(f"~/.task-tracker-tasks{user}")
@@ -102,7 +104,12 @@ def listTasks():
     maxTask = min((page + 1) * PAGE_LENGTH, len(allTasks))
 
     for i in range(minTask, maxTask):
-        print(f"{i + 1}. {allTasks[i]}")
+        task = allTasks[i]
+
+        if task[COMPLETED]:
+            print(f"*{i + 1}. {task[DESCRIPTION]}*")
+        else:
+            print(f"{i + 1}. {task[DESCRIPTION]}")
 
 
 def deleteTask():
