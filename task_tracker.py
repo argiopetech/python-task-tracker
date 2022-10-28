@@ -20,6 +20,7 @@ from os import system
 
 allTasks = []
 
+
 def getFilename(user):
     return os.path.expanduser(f"~/.task-tracker-tasks{user}")
 
