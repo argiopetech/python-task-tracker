@@ -84,7 +84,7 @@ def elicitInt(_min, _max, msg=None):
 
 def printMenu():
     listTasks()
-    print("\n1) Add  2) Delete  3) Count Tasks  4) Next Page  5) Quit")
+    print("\n1) Add  2) Complete  3) Count Tasks  4) Next Page  5) Quit")
 
 
 def acceptMenuInput():
@@ -112,10 +112,10 @@ def listTasks():
             print(f"{i + 1}. {task[DESCRIPTION]}")
 
 
-def deleteTask():
-    toDelete = elicitInt(1, len(allTasks), "Specify a task to delete: ")
+def completeTask():
+    toComplete = elicitInt(1, len(allTasks), "Specify a task to complete: ")
 
-    del allTasks[toDelete - 1]
+    allTasks[toComplete - 1][COMPLETED] = True
 
 
 def countTasks():
@@ -138,7 +138,7 @@ def handleMenuInput(userInput):
     if userInput == 1:
         addTask()
     elif userInput == 2:
-        deleteTask()
+        completeTask()
     elif userInput == 3:
         countTasks()
     elif userInput == 4:
