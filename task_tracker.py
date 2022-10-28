@@ -19,6 +19,9 @@ from os import system
 
 
 allTasks = []
+page = 0
+
+PAGE_LENGTH = 15
 
 
 def getFilename(user):
@@ -91,7 +94,10 @@ def addTask():
 
 
 def listTasks():
-    for i in range(len(allTasks)):
+    minTask = page * PAGE_LENGTH
+    maxTask = min((page + 1) * PAGE_LENGTH, len(allTasks))
+
+    for i in range(minTask, maxTask):
         print(f"{i + 1}. {allTasks[i]}")
 
 
