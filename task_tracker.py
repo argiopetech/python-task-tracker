@@ -16,13 +16,15 @@ import sys
 
 import os
 from os import system
-
+import rich
 
 allTasks = []
 page = 0
 
 PAGE_LENGTH = 15
 
+COMPLETED   = 0
+DESCRIPTION = 1
 
 def getFilename(user):
     return os.path.expanduser(f"~/.task-tracker-tasks{user}")
@@ -39,7 +41,11 @@ def getTasks(user):
         newLine = f.readline()
 
         while newLine != "":
-            toReturn += [newLine.strip()]
+            tmp = newLine.strip().split(',', maxsplit=1)
+            assert(len(tmp) == 2)
+            tmp[0] = tmp[0] == "True"
+
+            toReturn += [tmp]
 
             newLine = f.readline()
 
@@ -50,7 +56,7 @@ def writeTasks(user, tasks):
 
     with open(filename, "w") as f:
         for t in tasks:
-            f.write(f'{t}\n')
+            f.write(f'{t[0]},{t[1]}\n')
 
 
 def elicitInt(_min, _max, msg=None):
@@ -78,7 +84,7 @@ def elicitInt(_min, _max, msg=None):
 
 def printMenu():
     listTasks()
-    print("\n1) Add  2) Delete  3) Count Tasks  4) Next Page  5) Quit")
+    print("\n1) Add  2) Complete  3) Count Tasks  4) Next Page  5) Quit")
 
 
 def acceptMenuInput():
@@ -92,19 +98,29 @@ def addTask():
 
     allTasks += [task]
 
+def pageIndices(page):
+    _min = page * PAGE_LENGTH
+    _max = min((page + 1) * PAGE_LENGTH, len(allTasks))
+
+    return (_min, _max)
+
 
 def listTasks():
-    minTask = page * PAGE_LENGTH
-    maxTask = min((page + 1) * PAGE_LENGTH, len(allTasks))
+    (minTask, maxTask) = pageIndices(page)
 
     for i in range(minTask, maxTask):
-        print(f"{i + 1}. {allTasks[i]}")
+        task = allTasks[i]
+
+        if task[COMPLETED]:
+            rich.print(f"[bright_black]{i + 1}. {task[DESCRIPTION]}[/bright_black]")
+        else:
+            print(f"{i + 1}. {task[DESCRIPTION]}")
 
 
-def deleteTask():
-    toDelete = elicitInt(1, len(allTasks), "Specify a task to delete: ")
+def completeTask():
+    toComplete = elicitInt(1, len(allTasks), "Specify a task to complete: ")
 
-    del allTasks[toDelete - 1]
+    allTasks[toComplete - 1][COMPLETED] = True
 
 
 def countTasks():
@@ -112,10 +128,12 @@ def countTasks():
     input("Press enter to continue...")
 
 
-def nextPage():
+def nextPageOrReset():
     global page
 
-    if (page + 1) * PAGE_LENGTH > len(allTasks):
+    (minTask, _) = pageIndices(page + 1)
+
+    if (minTask > len(allTasks)):
         # Reset the page
         page = 0
     else:
@@ -127,11 +145,11 @@ def handleMenuInput(userInput):
     if userInput == 1:
         addTask()
     elif userInput == 2:
-        deleteTask()
+        completeTask()
     elif userInput == 3:
         countTasks()
     elif userInput == 4:
-        nextPage()
+        nextPageOrReset()
     elif userInput == 5:
         _quit = True
     else:
@@ -147,6 +165,11 @@ def clearScreen():
         clearCommand = "cls"
 
     system(clearCommand)
+
+
+def deleteComletedTasksAtListStart():
+    while allTasks[0][COMPLETED]:
+        del allTasks[0]
 
 
 def main():
@@ -165,6 +188,8 @@ def main():
 
     while not _quit:
         clearScreen()
+
+        deleteComletedTasksAtListStart()
 
         printMenu()
 
