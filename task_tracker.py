@@ -39,7 +39,11 @@ def getTasks(user):
         newLine = f.readline()
 
         while newLine != "":
-            toReturn += [newLine.strip()]
+            tmp = newLine.strip().split(',', maxsplit=1)
+            assert(len(tmp) == 2)
+            tmp[0] = tmp[0] == "True"
+
+            toReturn += [tmp]
 
             newLine = f.readline()
 
@@ -50,7 +54,7 @@ def writeTasks(user, tasks):
 
     with open(filename, "w") as f:
         for t in tasks:
-            f.write(f'{t}\n')
+            f.write(f'{t[0]},{t[1]}\n')
 
 
 def elicitInt(_min, _max, msg=None):
