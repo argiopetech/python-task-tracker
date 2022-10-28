@@ -16,7 +16,7 @@ import sys
 
 import os
 from os import system
-
+import rich
 
 allTasks = []
 page = 0
@@ -107,7 +107,7 @@ def listTasks():
         task = allTasks[i]
 
         if task[COMPLETED]:
-            print(f"*{i + 1}. {task[DESCRIPTION]}*")
+            rich.print(f"[bright_black]{i + 1}. {task[DESCRIPTION]}[/bright_black]")
         else:
             print(f"{i + 1}. {task[DESCRIPTION]}")
 
