@@ -21,7 +21,7 @@ from os import system
 allTasks = []
 page = 0
 
-PAGE_LENGTH = 15
+PAGE_LENGTH = 5
 
 
 def getFilename(user):
@@ -78,11 +78,11 @@ def elicitInt(_min, _max, msg=None):
 
 def printMenu():
     listTasks()
-    print("\n1) Add  2) Delete  3) Count Tasks  4) Quit")
+    print("\n1) Add  2) Delete  3) Count Tasks  4) Next Page  5) Quit")
 
 
 def acceptMenuInput():
-    return elicitInt(1, 4, "Select a menu item: ")
+    return elicitInt(1, 5, "Select a menu item: ")
 
 
 def addTask():
@@ -112,6 +112,15 @@ def countTasks():
     input("Press enter to continue...")
 
 
+def nextPage():
+    global page
+
+    if (page + 1) * PAGE_LENGTH > len(allTasks):
+        # Reset the page
+        page = 0
+    else:
+        page += 1
+
 def handleMenuInput(userInput):
     _quit = False
 
@@ -122,6 +131,8 @@ def handleMenuInput(userInput):
     elif userInput == 3:
         countTasks()
     elif userInput == 4:
+        nextPage()
+    elif userInput == 5:
         _quit = True
     else:
         raise ValueError(f"Unimplemented menu item, {userInput}")
