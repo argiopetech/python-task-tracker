@@ -177,6 +177,9 @@ def main():
     while not _quit:
         clearScreen()
 
+        while allTasks[0][COMPLETED]:
+            del allTasks[0]
+
         printMenu()
 
         userInput = acceptMenuInput()
